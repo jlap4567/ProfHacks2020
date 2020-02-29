@@ -12,6 +12,7 @@ import {
 } from "@material-ui/pickers";
 import TextField from "@material-ui/core/TextField";
 import GeoLocateButton from "./GeoLocateButton"
+import {geolocated} from 'react-geolocated';
 
 export default class TaskForm extends Component {
   constructor(props) {
@@ -35,15 +36,30 @@ export default class TaskForm extends Component {
     );
     this.onSubmit = this.onSubmit.bind(this);
 
+    var latitude = 0;
+    var longitude = 0;
+
+    navigator.geolocation.getCurrentPosition((pos)=>{
+        var coords = pos.coords;
+        latitude = coords.latitude;
+        longitude = coords.longitude;
+    })
+
     this.state = {
       name_of_restaurant: "",
-      location: "",
+      location: {
+        "type" : "Point",
+        "coordinates" : [
+            latitude, longitude
+        ]
+      },
       food_available_start_time: "07:30",
       food_available_end_time: "10:30",
       food_available: "",
       potential_allergies: ""
     };
   }
+
 
   onChangeName_of_Restaurant(e) {
     this.setState({
@@ -116,7 +132,6 @@ export default class TaskForm extends Component {
   render() {
     return (
       <div className="formStyle">
-          <GeoLocateButton/>
         <Form className="form" onSubmit={this.onSubmit}>
           <Form.Group controlId="exampleForm.ControlInput1">
             <Form.Label>Name</Form.Label>
@@ -126,14 +141,14 @@ export default class TaskForm extends Component {
               onChange={this.onChangeName_of_Restaurant}
             />
           </Form.Group>
-          <Form.Group controlId="exampleForm.ControlInput2">
+          {/* <Form.Group controlId="exampleForm.ControlInput2">
             <Form.Label>Location</Form.Label>
             <Form.Control
               type="text"
               value={this.state.location}
               onChange={this.onChangeLocation}
             />
-          </Form.Group>
+          </Form.Group> */}
           <Form.Group controlId="exampleForm.ControlTextarea1">
             <Form.Label>Food Avail Start Time</Form.Label>
             <form noValidate>
