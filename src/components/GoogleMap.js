@@ -1,17 +1,17 @@
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 import React, { Component } from "react";
 import ResturantMarker from '../images/resturantMarker.png';
- 
+
 const style = {
-    width: "100%",
-    height: "89%",
-    position: "relative"
+    width: "100vw",
+    height: "90vh",
+    position: "relative",
   };
-  
+
 export class GoogleMap extends Component {
     constructor(props) {
         super(props);
-    
+
         this.state = {
           showingInfoWindow: false,
           activeMarker: {},
@@ -48,11 +48,12 @@ export class GoogleMap extends Component {
     }
   };
 
-  
+
     render() {
         return (
         <Map google={this.props.google}
             className={"map"}
+            id="map"
             style={style}
             zoom={16}
             initialCenter={{
@@ -61,11 +62,11 @@ export class GoogleMap extends Component {
             }}
             center={{ lat: this.state.currlat, lng: this.state.currlon }}
         >
-    
+
             <Marker
             onClick={this.onMarkerClick}
             name={'Current location'} >
-              <InfoWindow 
+              <InfoWindow
                 marker={this.state.activeMarker}
                 onClose={this.onInfoWindowClose}
                 visible={this.state.showingInfoWindow}>
@@ -81,11 +82,11 @@ export class GoogleMap extends Component {
                     scaledSize: new this.props.google.maps.Size(64,64)
                   }}
                   onClick={this.onMarkerClick}
-                  name={'Holder Marker'} 
+                  name={'Holder Marker'}
                   position={{lat: 39.709262, lng: -75.1240}}/>
-                  
-    
-            <InfoWindow 
+
+
+            <InfoWindow
                 marker={this.state.activeMarker}
                 onClose={this.onInfoWindowClose}
                 visible={this.state.showingInfoWindow}>
@@ -97,7 +98,7 @@ export class GoogleMap extends Component {
         );
     }
     }
- 
+
 export default GoogleApiWrapper({
   apiKey: ("AIzaSyBIQpZBgN7WPGuBCRsCXQBfZJvetJxurFg")
 })(GoogleMap)

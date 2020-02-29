@@ -5,10 +5,18 @@ import GoogleMap from '../components/GoogleMap';
 
 export default class MainPage extends Component {
     render() {
+      const style={
+        marginTop: "90vh",
+        position: "relative",
+        top: 0,
+      }
         return (
             <div>
                 <Header />
-                <GoogleMap />
+                <div>
+                  <GoogleMap />
+                </div>
+                <div className="spacer" style={style}></div>
             </div>
         )
     }
