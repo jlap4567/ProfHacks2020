@@ -62,7 +62,6 @@ export class GoogleMap extends Component {
             }}
             center={{ lat: this.state.currlat, lng: this.state.currlon }}
         >
-
             <Marker
             onClick={this.onMarkerClick}
             name={'Current location'} >
@@ -83,6 +82,11 @@ export class GoogleMap extends Component {
                   }}
                   onClick={this.onMarkerClick}
                   name={'Holder Marker'}
+                  address = {"Location"}
+                  sTime = {"Start Time"}
+                  eTime = {"End Time"}
+                  foodAvail = {"Food Avalible"}
+                  allergies = {"Allergies"}
                   position={{lat: 39.709262, lng: -75.1240}}/>
 
 
@@ -91,7 +95,12 @@ export class GoogleMap extends Component {
                 onClose={this.onInfoWindowClose}
                 visible={this.state.showingInfoWindow}>
                 <div>
-                <h1>{this.state.selectedPlace.name}</h1>
+                <h2>{this.state.selectedPlace.name}</h2>
+                <h4>{this.state.selectedPlace.address}</h4>
+                <h4>{this.state.selectedPlace.sTime}</h4>
+                <h4>{this.state.selectedPlace.eTime}</h4>
+                <h4>{this.state.selectedPlace.foodAvail}</h4>
+                <h4>{this.state.selectedPlace.allergies}</h4>
                 </div>
             </InfoWindow>
         </Map>
