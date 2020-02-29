@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import ResturantMarker from '../images/resturantMarker.png';
 
 const style = {
-    width: "100vw",
+    width: "100%",
     height: "90vh",
     position: "relative",
   };
@@ -55,7 +55,7 @@ export class GoogleMap extends Component {
             className={"map"}
             id="map"
             style={style}
-            zoom={16}
+            zoom={14}
             initialCenter={{
             lat: this.state.currlat,
             lng: this.state.currlon

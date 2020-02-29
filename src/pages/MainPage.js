@@ -7,6 +7,7 @@ import {
 import Header from '../components/Header';
 import GoogleMap from '../components/GoogleMap';
 import Form from '../components/Form';
+import './MainPage.css';
 
 
 
@@ -26,7 +27,9 @@ export default class MainPage extends Component {
 
               <Switch>
                 <Route path="/about">
-                  <About />
+                  <div className="page">
+                    <About />
+                  </div>
                 </Route>
                 <Route path="/">
                   <Home />
@@ -40,15 +43,11 @@ export default class MainPage extends Component {
 
 function Home() {
   return (
-    <div className="main">
-      <GoogleMap />
-    </div>
+    <GoogleMap />
   )
 }
 function About() {
   return (
-    <div className="main">
-      <Form />
-    </div>
+    <Form />
   )
 }
