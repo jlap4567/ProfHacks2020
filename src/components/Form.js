@@ -11,6 +11,7 @@ import {
   KeyboardDatePicker
 } from "@material-ui/pickers";
 import TextField from "@material-ui/core/TextField";
+import GeoLocateButton from "./GeoLocateButton"
 
 export default class TaskForm extends Component {
   constructor(props) {
@@ -112,6 +113,7 @@ export default class TaskForm extends Component {
   render() {
     return (
       <div className="formStyle">
+          <GeoLocateButton/>
         <Form className="form" onSubmit={this.onSubmit}>
           <Form.Group controlId="exampleForm.ControlInput1">
             <Form.Label>Name</Form.Label>
