@@ -55,7 +55,7 @@ export class GoogleMap extends Component {
             className={"map"}
             id="map"
             style={style}
-            zoom={16}
+            zoom={14}
             initialCenter={{
             lat: this.state.currlat,
             lng: this.state.currlon
