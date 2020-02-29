@@ -23,6 +23,9 @@ export default class TaskForm extends Component {
     this.onChangefood_available_start_time = this.onChangefood_available_start_time.bind(
       this
     );
+    this.onChangefood_available_end_time = this.onChangefood_available_end_time.bind(
+      this
+    );
     // this.onChangeRecurring = this.onChangeRecurring.bind(this);
     // this.onChangeRecurring_Time = this.onChangeRecurring_Time.bind(this);
     this.onChangeFood_Available = this.onChangeFood_Available.bind(this);
