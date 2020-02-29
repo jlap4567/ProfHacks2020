@@ -12,18 +12,22 @@ router.route("/").get((req, res) => {
 router.route("/add").post((req, res) => {
   const name_of_restaurant = req.body.name_of_restaurant;
   const location = req.body.location;
-  const food_available_time = Date.parse(req.body.food_available_time);
+  const food_available_start_time = Date.parse(req.body.food_available_start_time);
+  const food_available_end_time = Date.parse(req.body.food_available_end_time);
   const recurring = req.body.date;
-  const recurring_time = Date.parse(req.body.recurring_time);
+  const recurring_start_time = Date.parse(req.body.recurring_start_time);
+  const recurring_end_time = Date.parse(req.body.recurring_end_time);
   const food_available = req.body.food_available;
   const potential_allergies = req.body.potential_allergies;
 
   const newDonor = new Donor({
     name_of_restaurant,
     location,
-    food_available_time,
+    food_available_start_time,
+    food_available_end_time,
     recurring,
-    recurring_time,
+    recurring_start_time,
+    recurring_end_time,
     food_available,
     potential_allergies,
   });
