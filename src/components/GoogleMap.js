@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import ResturantMarker from '../images/resturantMarker.png';
 
 const style = {
-    width: "100vw",
+    width: "100%",
     height: "90vh",
     position: "relative",
   };
