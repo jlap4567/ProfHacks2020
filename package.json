@@ -6,12 +6,22 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.1",
     "@testing-library/user-event": "^7.2.1",
+<<<<<<< HEAD
     "google-map-react": "^1.1.6",
     "google-maps-react": "^2.0.2",
     "react": "^16.13.0",
     "react-dom": "^16.13.0",
     "react-google-maps": "^9.4.5",
     "react-scripts": "3.4.0"
+=======
+    "bootstrap": "^4.4.1",
+    "jquery": "^3.4.1",
+    "popper": "^1.0.1",
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0",
+    "react-scripts": "3.4.0",
+    "reactstrap": "^8.4.1"
+>>>>>>> 097a2058f135dbc4baf853349751a9baabba36ce
   },
   "scripts": {
     "start": "react-scripts start",
@@ -33,5 +43,23 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "devDependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mongoose": "^5.9.2",
+    "nodemon": "^2.0.2"
+  },
+  "description": "",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jlap4567/ProfHacks2020.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jlap4567/ProfHacks2020/issues"
+  },
+  "homepage": "https://github.com/jlap4567/ProfHacks2020#readme"
 }
