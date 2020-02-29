@@ -1,15 +1,4 @@
 import React, { Component } from 'react'
-<<<<<<< HEAD
-
-export default class Header extends Component {
-    render() {
-        return (
-            <div>
-            </div>
-        )
-    }
-}
-=======
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'jquery';
 import 'bootstrap';
@@ -44,4 +33,3 @@ class Header extends Component {
 }
 
 export default Header;
->>>>>>> 097a2058f135dbc4baf853349751a9baabba36ce
