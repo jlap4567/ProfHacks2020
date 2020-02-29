@@ -2,13 +2,14 @@ import React, { Component } from 'react'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'jquery';
 import 'bootstrap';
+import logo from '../logo.png'
 
 class Header extends Component {
   render () {
     return (
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <a className="navbar-brand" href="#">
-          <img src="https://img.icons8.com/dusk/64/000000/vegetarian-food.png"/>
+          <img src={logo}/>
           Next Meal
         </a>
         <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
