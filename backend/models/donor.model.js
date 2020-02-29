@@ -2,18 +2,23 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const exerciseSchema = new Schema(
+
+//{ type: {type: String}, coordinates: [Number]}
+const DonorSchema = new Schema(
   {
-    username: { type: String, required: true },
-    description: { type: String, required: true },
-    duration: { type: Number, required: true },
-    date: { type: Date, required: true }
+    name_of_restaurant: { type: String, required: true },
+    location: { type: String, required: true},
+    food_available_time: { type: String, required: true },
+    recurring: { type: Boolean, required: false },
+    recurring_time: { type: String, required: false },
+    food_available: { type: String, required: true },
+    potential_allergies: { type: String, required: true },
   },
   {
     timestamps: true
   }
 );
 
-const Exercise = mongoose.model("Exercise", exerciseSchema);
+const Donor = mongoose.model("Donor", DonorSchema);
 
-module.exports = Exercise;
+module.exports = Donor;
