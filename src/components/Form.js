@@ -11,8 +11,8 @@ import {
   KeyboardDatePicker
 } from "@material-ui/pickers";
 import TextField from "@material-ui/core/TextField";
-import GeoLocateButton from "./GeoLocateButton"
-import {geolocated} from 'react-geolocated';
+import GeoLocateButton from "./GeoLocateButton";
+import { geolocated } from "react-geolocated";
 
 export default class TaskForm extends Component {
   constructor(props) {
@@ -21,7 +21,7 @@ export default class TaskForm extends Component {
     this.onChangeName_of_Restaurant = this.onChangeName_of_Restaurant.bind(
       this
     );
-    this.onChangeLocation = this.onChangeLocation.bind(this);
+    
     this.onChangefood_available_start_time = this.onChangefood_available_start_time.bind(
       this
     );
@@ -36,22 +36,11 @@ export default class TaskForm extends Component {
     );
     this.onSubmit = this.onSubmit.bind(this);
 
-    var latitude = 0;
-    var longitude = 0;
-
-    navigator.geolocation.getCurrentPosition((pos)=>{
-        var coords = pos.coords;
-        latitude = coords.latitude;
-        longitude = coords.longitude;
-    })
-
     this.state = {
       name_of_restaurant: "",
       location: {
-        "type" : "Point",
-        "coordinates" : [
-            latitude, longitude
-        ]
+        type: "Point",
+        coordinates: [0, 0]
       },
       food_available_start_time: "07:30",
       food_available_end_time: "10:30",
@@ -60,15 +49,23 @@ export default class TaskForm extends Component {
     };
   }
 
+  componentDidMount() {
+    navigator.geolocation.getCurrentPosition(pos => {
+      const coords = pos.coords;
+      const latitude = coords.latitude;
+      const longitude = coords.longitude;
+      this.setState({
+        location: {
+          type: "Point",
+          coordinates: [latitude, longitude]
+        }
+      });
+    });
+  }
 
   onChangeName_of_Restaurant(e) {
     this.setState({
       name_of_restaurant: e.target.value
-    });
-  }
-  onChangeLocation(e) {
-    this.setState({
-      location: e.target.value
     });
   }
   onChangefood_available_start_time(e) {
