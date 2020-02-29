@@ -19,9 +19,11 @@ const DonorSchema = new Schema(
         required: true
       }
     },
-    food_available_time: { type: Date, required: true },
+    food_available_start_time: { type: Date, required: true },
+    food_available_end_time: { type: Date, required: true },
     recurring: { type: Boolean, required: false },
-    recurring_time: { type: Date, required: false },
+    recurring_start_time: { type: Date, required: false },
+    recurring_end_time: { type: Date, required: false },
     food_available: { type: String, required: true },
     potential_allergies: { type: String, required: true },
   },
