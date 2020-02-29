@@ -1,5 +1,6 @@
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 import React, { Component } from "react";
+import axios from "axios";
 import ResturantMarker from '../images/resturantMarker.png';
 
 const style = {
@@ -20,6 +21,7 @@ export class GoogleMap extends Component {
           currlon: -75.11408639999999, //-75.1635,
           taps: [],
           tapsLoaded: false,
+          allLocations: {},
         };
       }
 
@@ -48,8 +50,18 @@ export class GoogleMap extends Component {
     }
   };
 
+  componentDidMount() {
+    axios.get('http://localhost:5000/donors/')
+      .then(res => {
+        this.setState({ allLocations: res });
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  }
 
     render() {
+        console.log(this.state.allLocations);
         return (
         <Map google={this.props.google}
             className={"map"}
