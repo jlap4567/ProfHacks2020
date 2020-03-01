@@ -50,10 +50,31 @@ export class GoogleMap extends Component {
     }
   };
 
+  renderMarkers() {
+    return this.state.allLocations.map(item => {
+      return (
+        <Marker
+              icon={{
+                url: ResturantMarker,
+                anchor: new this.props.google.maps.Point(32,32),
+                scaledSize: new this.props.google.maps.Size(64,64)
+              }}
+              onClick={this.onMarkerClick}
+              name={item.name}
+              address = {"address"}
+              sTime = {item.food_available_start_time}
+              eTime = {item.food_available_end_time}
+              foodAvail = {item.food_availble}
+              allergies = {item.potential_allergies}
+              position={{lat: item.location.coordinates[0], lng: item.location.coordinates[1]}}/>
+      )
+    })
+  }
+
   componentDidMount() {
     axios.get('http://localhost:5000/donors/')
       .then(res => {
-        this.setState({ allLocations: res });
+        this.setState({ allLocations: res.data });
       })
       .catch((error) => {
         console.log(error);
@@ -86,6 +107,7 @@ export class GoogleMap extends Component {
                 </div>
             </InfoWindow>
             </Marker>
+            {this.renderMarkers()}
             <Marker
                   icon={{
                     url: ResturantMarker,
