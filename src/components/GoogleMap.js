@@ -8,6 +8,56 @@ const style = {
     height: "90vh",
     position: "relative",
   };
+
+  // Actual Magic: https://stackoverflow.com/a/41337005
+// Distance calculates the distance between two lat/lon pairs
+function distance(lat1, lon1, lat2, lon2) {
+  var p = 0.017453292519943295;
+  var a =
+    0.5 -
+    Math.cos((lat2 - lat1) * p) / 2 +
+    (Math.cos(lat1 * p) *
+      Math.cos(lat2 * p) *
+      (1 - Math.cos((lon2 - lon1) * p))) /
+      2;
+  return 12742 * Math.asin(Math.sqrt(a));
+}
+
+// Takes an array of objects with lat and lon properties as well as a single object with lat and lon
+// properties and finds the closest point (by shortest distance).
+function closest(data, v) {
+  // console.log(data.map(p => distance(v['lat'],v['lon'],p['lat'],p['lon'])))
+  // console.log(Math.min(...data.map(p => distance(v['lat'],v['lon'],p['lat'],p['lon']))))
+  var distances = data.map(function(p) {
+    return {
+      lat: p["lat"],
+      lon: p["lon"],
+      organization: p["organization"],
+      address: p["address"],
+      distance: distance(v["lat"], v["lon"], p["lat"], p["lon"])
+    };
+  });
+  var minDistance = Math.min(...distances.map(d => d.distance));
+
+  var closestTap = {
+    organization: "",
+    address: "",
+    lat: "",
+    lon: ""
+  };
+
+  for (var i = 0; i < distances.length; i++) {
+    if (distances[i].distance === minDistance) {
+      closestTap.lat = distances[i].lat;
+      closestTap.lon = distances[i].lon;
+      closestTap.organization = distances[i].organization;
+      closestTap.address = distances[i].address;
+    }
+  }
+
+  return closestTap;
+}
+
   function getCoordinates() {
     return new Promise(function(resolve, reject) {
       navigator.geolocation.getCurrentPosition(resolve, reject);
@@ -66,18 +116,20 @@ export class GoogleMap extends Component {
               }}
               onClick={this.onMarkerClick}
               name={item.name_of_restaurant}
-              address = {"address"}
+              address = {item.address}
               sTime = {item.food_available_start_time}
               eTime = {item.food_available_end_time}
               foodAvail = {item.food_available}
               allergies = {item.potential_allergies}
-              position={{lat: item.location.coordinates[0], lng: item.location.coordinates[1]}}/>
+              position={{lat: item.location.coordinates[0], lng: item.location.coordinates[1]}}
+              qPos = {item.location.coordinates[0] + "," + item.location.coordinates[1]}
+              />
       )
     })
   }
 
   componentDidMount() {
-    axios.get('http://localhost:5000/donors/')
+    axios.get('http://localhost:5000/donors')
       .then(res => {
         this.setState({ allLocations: res.data });
       })
@@ -146,11 +198,14 @@ export class GoogleMap extends Component {
                 visible={this.state.showingInfoWindow}>
                 <div>
                 <h3>{this.state.selectedPlace.name}</h3>
-                <h5>{"Adress: " + this.state.selectedPlace.address}</h5>
+                <a href={"https://www.google.com/maps/search/?api=1&query=" + this.state.selectedPlace.qPos}>
+                  <h5 >{"Address: " + this.state.selectedPlace.address}</h5>
+                </a>
+                
                 <h5>{"Open Time: " + this.state.selectedPlace.sTime}</h5>
                 <h5>{"Close Time: " + this.state.selectedPlace.eTime}</h5>
                 <h5>{"Food Available: " + this.state.selectedPlace.foodAvail}</h5>
-                <h5>{"Allergies" + this.state.selectedPlace.allergies}</h5>
+                <h5>{"Allergies: " + this.state.selectedPlace.allergies}</h5>
                 </div>
             </InfoWindow>
         </Map>

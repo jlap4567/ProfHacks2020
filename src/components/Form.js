@@ -124,7 +124,7 @@ export default class TaskForm extends Component {
     console.log(donor);
 
     axios
-      .post("http://localhost:5000/donors/add", donor)
+      .post("https://35.245.117.252:5000", donor)
       .then(res => {
         this.setState({fireRedirect: true});
       });
