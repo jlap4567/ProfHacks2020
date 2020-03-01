@@ -12,6 +12,7 @@ router.route("/").get((req, res) => {
 router.route("/add").post((req, res) => {
   const name_of_restaurant = req.body.name_of_restaurant;
   const location = req.body.location;
+  const address = req.body.address;
   const food_available_start_time = req.body.food_available_start_time;
   const food_available_end_time = req.body.food_available_end_time;
   const food_available = req.body.food_available;
@@ -20,6 +21,7 @@ router.route("/add").post((req, res) => {
   const newDonor = new Donor({
     name_of_restaurant,
     location,
+    address,
     food_available_start_time,
     food_available_end_time,
     food_available,
