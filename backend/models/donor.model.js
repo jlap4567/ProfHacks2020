@@ -19,6 +19,7 @@ const DonorSchema = new Schema(
         required: true
       }
     },
+    address: { type: String, required: true },
     food_available_start_time: { type: String, required: true },
     food_available_end_time: { type: String, required: true },
     food_available: { type: String, required: true },

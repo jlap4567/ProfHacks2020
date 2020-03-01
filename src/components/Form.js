@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Redirect } from 'react-router-dom';
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
@@ -46,7 +47,8 @@ export default class TaskForm extends Component {
       food_available_end_time: "10:30",
       address: "",
       food_available: "",
-      potential_allergies: ""
+      potential_allergies: "",
+      fireRedirect: false,
     };
   }
 
@@ -123,12 +125,15 @@ export default class TaskForm extends Component {
 
     axios
       .post("http://localhost:5000/donors/add", donor)
-      .then(res => console.log(res.data));
+      .then(res => {
+        this.setState({fireRedirect: true});
+      });
 
     //window.location = "/";
   }
 
   render() {
+    const { fireRedirect } = this.state;
     return (
       <div className="formStyle">
         <Form className="form" onSubmit={this.onSubmit}>
@@ -205,6 +210,9 @@ export default class TaskForm extends Component {
           <Button variant="primary" type="submit">
             Submit
           </Button>
+          {fireRedirect && (
+            <Redirect to="/" />
+          )}
         </Form>
       </div>
     );

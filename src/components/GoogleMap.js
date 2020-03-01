@@ -1,5 +1,6 @@
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 import React, { Component } from "react";
+import axios from "axios";
 import ResturantMarker from '../images/resturantMarker.png';
 
 const style = {
@@ -20,6 +21,7 @@ export class GoogleMap extends Component {
           currlon: -75.11408639999999, //-75.1635,
           taps: [],
           tapsLoaded: false,
+          allLocations: null,
         };
       }
 
@@ -48,8 +50,39 @@ export class GoogleMap extends Component {
     }
   };
 
+  renderMarkers() {
+    return this.state.allLocations.map(item => {
+      return (
+        <Marker
+              icon={{
+                url: ResturantMarker,
+                anchor: new this.props.google.maps.Point(32,32),
+                scaledSize: new this.props.google.maps.Size(64,64)
+              }}
+              onClick={this.onMarkerClick}
+              name={item.name_of_restaurant}
+              address = {"address"}
+              sTime = {item.food_available_start_time}
+              eTime = {item.food_available_end_time}
+              foodAvail = {item.food_available}
+              allergies = {item.potential_allergies}
+              position={{lat: item.location.coordinates[0], lng: item.location.coordinates[1]}}/>
+      )
+    })
+  }
+
+  componentDidMount() {
+    axios.get('http://localhost:5000/donors/')
+      .then(res => {
+        this.setState({ allLocations: res.data });
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  }
 
     render() {
+        console.log(this.state.allLocations);
         return (
         <Map google={this.props.google}
             className={"map"}
@@ -62,7 +95,6 @@ export class GoogleMap extends Component {
             }}
             center={{ lat: this.state.currlat, lng: this.state.currlon }}
         >
-
             <Marker
             onClick={this.onMarkerClick}
             name={'Current location'} >
@@ -75,6 +107,8 @@ export class GoogleMap extends Component {
                 </div>
             </InfoWindow>
             </Marker>
+            
+            {this.state.allLocations && this.renderMarkers()}
             <Marker
                   icon={{
                     url: ResturantMarker,
@@ -83,6 +117,11 @@ export class GoogleMap extends Component {
                   }}
                   onClick={this.onMarkerClick}
                   name={'Holder Marker'}
+                  address = {"Location"}
+                  sTime = {"Start Time"}
+                  eTime = {"End Time"}
+                  foodAvail = {"Food Avalible"}
+                  allergies = {"Allergies"}
                   position={{lat: 39.709262, lng: -75.1240}}/>
 
 
@@ -91,7 +130,12 @@ export class GoogleMap extends Component {
                 onClose={this.onInfoWindowClose}
                 visible={this.state.showingInfoWindow}>
                 <div>
-                <h1>{this.state.selectedPlace.name}</h1>
+                <h3>{this.state.selectedPlace.name}</h3>
+                <h5>{"Adress: " + this.state.selectedPlace.address}</h5>
+                <h5>{"Open Time: " + this.state.selectedPlace.sTime}</h5>
+                <h5>{"Close Time: " + this.state.selectedPlace.eTime}</h5>
+                <h5>{"Food Available: " + this.state.selectedPlace.foodAvail}</h5>
+                <h5>{"Allergies" + this.state.selectedPlace.allergies}</h5>
                 </div>
             </InfoWindow>
         </Map>
