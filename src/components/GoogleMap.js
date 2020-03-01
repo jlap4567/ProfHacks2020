@@ -221,9 +221,13 @@ export class GoogleMap extends Component {
         <Card style={{ width: '18rem' }}>
         <Card.Body>
           <Card.Title>Closest Resturant</Card.Title>
+          
           <Card.Text>
+            <a href={"https://www.google.com/maps/search/?api=1&query=" + (this.state.closestPoint && this.state.closestPoint.lat) + ", " + (this.state.closestPoint && this.state.closestPoint.lon) }>
                   {this.state.closestPoint && this.state.closestPoint.organization}
+            </a>
           </Card.Text>
+          
         </Card.Body>
       </Card>
       </>
