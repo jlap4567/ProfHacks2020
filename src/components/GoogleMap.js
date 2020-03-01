@@ -21,7 +21,7 @@ export class GoogleMap extends Component {
           currlon: -75.11408639999999, //-75.1635,
           taps: [],
           tapsLoaded: false,
-          allLocations: {},
+          allLocations: null,
         };
       }
 
@@ -60,11 +60,11 @@ export class GoogleMap extends Component {
                 scaledSize: new this.props.google.maps.Size(64,64)
               }}
               onClick={this.onMarkerClick}
-              name={item.name}
+              name={item.name_of_restaurant}
               address = {"address"}
               sTime = {item.food_available_start_time}
               eTime = {item.food_available_end_time}
-              foodAvail = {item.food_availble}
+              foodAvail = {item.food_available}
               allergies = {item.potential_allergies}
               position={{lat: item.location.coordinates[0], lng: item.location.coordinates[1]}}/>
       )
@@ -107,7 +107,8 @@ export class GoogleMap extends Component {
                 </div>
             </InfoWindow>
             </Marker>
-            {this.renderMarkers()}
+            
+            {this.state.allLocations && this.renderMarkers()}
             <Marker
                   icon={{
                     url: ResturantMarker,
@@ -129,12 +130,12 @@ export class GoogleMap extends Component {
                 onClose={this.onInfoWindowClose}
                 visible={this.state.showingInfoWindow}>
                 <div>
-                <h2>{this.state.selectedPlace.name}</h2>
-                <h4>{this.state.selectedPlace.address}</h4>
-                <h4>{this.state.selectedPlace.sTime}</h4>
-                <h4>{this.state.selectedPlace.eTime}</h4>
-                <h4>{this.state.selectedPlace.foodAvail}</h4>
-                <h4>{this.state.selectedPlace.allergies}</h4>
+                <h3>{this.state.selectedPlace.name}</h3>
+                <h5>{"Adress: " + this.state.selectedPlace.address}</h5>
+                <h5>{"Open Time: " + this.state.selectedPlace.sTime}</h5>
+                <h5>{"Close Time: " + this.state.selectedPlace.eTime}</h5>
+                <h5>{"Food Available: " + this.state.selectedPlace.foodAvail}</h5>
+                <h5>{"Allergies" + this.state.selectedPlace.allergies}</h5>
                 </div>
             </InfoWindow>
         </Map>
