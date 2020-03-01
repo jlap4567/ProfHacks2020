@@ -2,6 +2,7 @@ import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 import React, { Component } from "react";
 import axios from "axios";
 import ResturantMarker from '../images/resturantMarker.png';
+import {Card} from 'react-bootstrap';
 
 const style = {
     width: "100%",
@@ -29,12 +30,14 @@ function closest(data, v) {
   // console.log(data.map(p => distance(v['lat'],v['lon'],p['lat'],p['lon'])))
   // console.log(Math.min(...data.map(p => distance(v['lat'],v['lon'],p['lat'],p['lon']))))
   var distances = data.map(function(p) {
+    console.log(p);
     return {
-      lat: p["lat"],
-      lon: p["lon"],
-      organization: p["organization"],
-      address: p["address"],
-      distance: distance(v["lat"], v["lon"], p["lat"], p["lon"])
+      lat: p.location.coordinates[0],
+      lon: p.location.coordinates[1],
+      organization: p.name_of_restaurant,
+      address: p.address,
+      
+      distance: distance(v.currlat, v.currlon, p.location.coordinates[0], p.location.coordinates[1])
     };
   });
   var minDistance = Math.min(...distances.map(d => d.distance));
@@ -77,6 +80,7 @@ export class GoogleMap extends Component {
           taps: [],
           tapsLoaded: false,
           allLocations: null,
+          closestPoint: null,
         };
       }
 
@@ -132,6 +136,8 @@ export class GoogleMap extends Component {
     axios.get('http://localhost:5000/donors')
       .then(res => {
         this.setState({ allLocations: res.data });
+      }).then(() => {
+        this.setState({closestPoint: closest(this.state.allLocations, {currlat: this.state.currlat, currlon: this.state.currlon})});
       })
       .catch((error) => {
         console.log(error);
@@ -146,11 +152,13 @@ export class GoogleMap extends Component {
           this.setState({ currlon: position.coords.longitude });
         }
       });
+      
   }
 
     render() {
-        console.log(this.state.allLocations);
+        console.log(this.state.closestPoint);
         return (
+          <>
         <Map google={this.props.google}
             className={"map"}
             id="map"
@@ -209,6 +217,16 @@ export class GoogleMap extends Component {
                 </div>
             </InfoWindow>
         </Map>
+        
+        <Card style={{ width: '18rem' }}>
+        <Card.Body>
+          <Card.Title>Closest Resturant</Card.Title>
+          <Card.Text>
+                  {this.state.closestPoint && this.state.closestPoint.organization}
+          </Card.Text>
+        </Card.Body>
+      </Card>
+      </>
         );
     }
     }
