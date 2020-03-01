@@ -17,11 +17,11 @@ import { geolocated } from "react-geolocated";
 export default class TaskForm extends Component {
   constructor(props) {
     super(props);
-
+    this.locateMe = this.locateMe.bind(this)
     this.onChangeName_of_Restaurant = this.onChangeName_of_Restaurant.bind(
       this
     );
-    
+
     this.onChangefood_available_start_time = this.onChangefood_available_start_time.bind(
       this
     );
@@ -44,6 +44,7 @@ export default class TaskForm extends Component {
       },
       food_available_start_time: "07:30",
       food_available_end_time: "10:30",
+      address: "",
       food_available: "",
       potential_allergies: ""
     };
@@ -78,21 +79,6 @@ export default class TaskForm extends Component {
       food_available_end_time: e.target.value
     });
   }
-  //   onChangeRecurring(e) {
-  //     console.log("hey");
-  //     if (e.target.value === "1") {
-  //       e.target.value = true;
-  //     }
-  //     console.log(e.target.value);
-  //     this.setState({
-  //       required: e.target.value
-  //     });
-  //   }
-  //   onChangeRecurring_Time(date) {
-  //     this.setState({
-  //       recurring_time: date
-  //     });
-  //   }
   onChangeFood_Available(e) {
     this.setState({
       food_available: e.target.value
@@ -105,6 +91,21 @@ export default class TaskForm extends Component {
     });
   }
 
+  locateMe() {
+    axios
+      .get(
+        "https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=AIzaSyBIQpZBgN7WPGuBCRsCXQBfZJvetJxurFg"
+      )
+      .then(response => {
+          this.setState({
+              address: response.data.results[0].formatted_address
+          })
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
   onSubmit(e) {
     e.preventDefault();
 
@@ -113,6 +114,7 @@ export default class TaskForm extends Component {
       location: this.state.location,
       food_available_start_time: this.state.food_available_start_time,
       food_available_end_time: this.state.food_available_end_time,
+      address: this.state.address,
       food_available: this.state.food_available,
       potential_allergies: this.state.potential_allergies
     };
@@ -138,14 +140,6 @@ export default class TaskForm extends Component {
               onChange={this.onChangeName_of_Restaurant}
             />
           </Form.Group>
-          {/* <Form.Group controlId="exampleForm.ControlInput2">
-            <Form.Label>Location</Form.Label>
-            <Form.Control
-              type="text"
-              value={this.state.location}
-              onChange={this.onChangeLocation}
-            />
-          </Form.Group> */}
           <Form.Group controlId="exampleForm.ControlTextarea1">
             <Form.Label>Food Avail Start Time</Form.Label>
             <form noValidate>
@@ -183,6 +177,14 @@ export default class TaskForm extends Component {
                 }}
               />
             </form>
+          </Form.Group>
+          <Form.Group controlId="formGridState">
+            <Form.Label>Address</Form.Label>
+            <a onClick={this.locateMe}> Locate Me</a>
+            <Form.Control
+              type="text"
+              value={this.state.address}
+            ></Form.Control>
           </Form.Group>
           <Form.Group controlId="formGridState">
             <Form.Label>Food Available</Form.Label>
