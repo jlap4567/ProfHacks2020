@@ -36,7 +36,7 @@ function closest(data, v) {
       lon: p.location.coordinates[1],
       organization: p.name_of_restaurant,
       address: p.address,
-      
+
       distance: distance(v.currlat, v.currlon, p.location.coordinates[0], p.location.coordinates[1])
     };
   });
@@ -152,7 +152,7 @@ export class GoogleMap extends Component {
           this.setState({ currlon: position.coords.longitude });
         }
       });
-      
+
   }
 
     render() {
@@ -182,7 +182,7 @@ export class GoogleMap extends Component {
                 </div>
             </InfoWindow>
             </Marker>
-            
+
             {this.state.allLocations && this.renderMarkers()}
             <Marker
                   icon={{
@@ -209,7 +209,7 @@ export class GoogleMap extends Component {
                 <a href={"https://www.google.com/maps/search/?api=1&query=" + this.state.selectedPlace.qPos}>
                   <h5 >{"Address: " + this.state.selectedPlace.address}</h5>
                 </a>
-                
+
                 <h5>{"Open Time: " + this.state.selectedPlace.sTime}</h5>
                 <h5>{"Close Time: " + this.state.selectedPlace.eTime}</h5>
                 <h5>{"Food Available: " + this.state.selectedPlace.foodAvail}</h5>
@@ -217,17 +217,17 @@ export class GoogleMap extends Component {
                 </div>
             </InfoWindow>
         </Map>
-        
-        <Card style={{ width: '18rem' }}>
+
+        <Card style={{ width: '15rem' }}>
         <Card.Body>
-          <Card.Title>Closest Resturant</Card.Title>
-          
+          <Card.Title>Closest Location</Card.Title>
+
           <Card.Text>
             <a href={"https://www.google.com/maps/search/?api=1&query=" + (this.state.closestPoint && this.state.closestPoint.lat) + ", " + (this.state.closestPoint && this.state.closestPoint.lon) }>
                   {this.state.closestPoint && this.state.closestPoint.organization}
             </a>
           </Card.Text>
-          
+
         </Card.Body>
       </Card>
       </>
