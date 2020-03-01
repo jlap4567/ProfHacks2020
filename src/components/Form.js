@@ -1,24 +1,15 @@
 import React, { Component } from "react";
-import { Redirect } from 'react-router-dom';
+import { Redirect } from "react-router-dom";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
-import Grid from "@material-ui/core/Grid";
 import "date-fns";
-import DateFnsUtils from "@date-io/date-fns";
-import {
-  MuiPickersUtilsProvider,
-  KeyboardTimePicker,
-  KeyboardDatePicker
-} from "@material-ui/pickers";
 import TextField from "@material-ui/core/TextField";
-import GeoLocateButton from "./GeoLocateButton";
-import { geolocated } from "react-geolocated";
 
 export default class TaskForm extends Component {
   constructor(props) {
     super(props);
-    this.locateMe = this.locateMe.bind(this)
+    this.locateMe = this.locateMe.bind(this);
     this.onChangeName_of_Restaurant = this.onChangeName_of_Restaurant.bind(
       this
     );
@@ -29,8 +20,6 @@ export default class TaskForm extends Component {
     this.onChangefood_available_end_time = this.onChangefood_available_end_time.bind(
       this
     );
-    // this.onChangeRecurring = this.onChangeRecurring.bind(this);
-    // this.onChangeRecurring_Time = this.onChangeRecurring_Time.bind(this);
     this.onChangeFood_Available = this.onChangeFood_Available.bind(this);
     this.onChangePontential_Allergies = this.onChangePontential_Allergies.bind(
       this
@@ -48,7 +37,7 @@ export default class TaskForm extends Component {
       address: "",
       food_available: "",
       potential_allergies: "",
-      fireRedirect: false,
+      fireRedirect: false
     };
   }
 
@@ -96,12 +85,12 @@ export default class TaskForm extends Component {
   locateMe() {
     axios
       .get(
-        "https://maps.googleapis.com/maps/api/geocode/json?latlng=40.714224,-73.961452&key=AIzaSyBIQpZBgN7WPGuBCRsCXQBfZJvetJxurFg"
+        "https://maps.googleapis.com/maps/api/geocode/json?latlng=39.719129,-75.077044&key=AIzaSyBIQpZBgN7WPGuBCRsCXQBfZJvetJxurFg"
       )
       .then(response => {
-          this.setState({
-              address: response.data.results[0].formatted_address
-          })
+        this.setState({
+          address: response.data.results[0].formatted_address
+        });
       })
       .catch(error => {
         console.log(error);
@@ -129,28 +118,36 @@ export default class TaskForm extends Component {
         this.setState({fireRedirect: true});
       });
 
+
     //window.location = "/";
   }
+  
 
   render() {
+
     const { fireRedirect } = this.state;
+      
     return (
-      <div className="formStyle">
-        <Form className="form" onSubmit={this.onSubmit}>
+
+        
+      <div>
+        <Form className="form formStyle" onSubmit={this.onSubmit}>
+            <h1>Donation Form</h1>
           <Form.Group controlId="exampleForm.ControlInput1">
-            <Form.Label>Name</Form.Label>
-            <Form.Control
-              type="text"
+            <TextField
+              id="standard-basic"
+              label="Restaurant Name"
+              variant="standard"
               value={this.state.name_of_restaurant}
               onChange={this.onChangeName_of_Restaurant}
             />
           </Form.Group>
+          <div className="">
           <Form.Group controlId="exampleForm.ControlTextarea1">
-            <Form.Label>Food Avail Start Time</Form.Label>
             <form noValidate>
               <TextField
                 id="time"
-                label="Alarm clock"
+                label="Start Time"
                 type="time"
                 defaultValue="07:30"
                 value={this.state.food_available_start_time}
@@ -165,11 +162,10 @@ export default class TaskForm extends Component {
             </form>
           </Form.Group>
           <Form.Group controlId="exampleForm.ControlTextarea1">
-            <Form.Label>Food Avail End Time</Form.Label>
             <form noValidate>
               <TextField
                 id="time"
-                label="Alarm clock"
+                label="End Time"
                 type="time"
                 defaultValue="07:30"
                 value={this.state.food_available_end_time}
@@ -183,36 +179,39 @@ export default class TaskForm extends Component {
               />
             </form>
           </Form.Group>
+          </div>
           <Form.Group controlId="formGridState">
-            <Form.Label>Address</Form.Label>
-            <a onClick={this.locateMe}> Locate Me</a>
-            <Form.Control
-              type="text"
+            <TextField
+              id="standard-basic"
+              label="Address"
+              variant="standard"
               value={this.state.address}
-            ></Form.Control>
+              onChange={this.onChangeName_of_Restaurant}
+            />
+            <a cursor="pointer" onClick={this.locateMe}> Locate Me</a>
           </Form.Group>
           <Form.Group controlId="formGridState">
-            <Form.Label>Food Available</Form.Label>
-            <Form.Control
-              type="text"
+          <TextField
+              id="standard-basic"
+              label="Available Food"
+              variant="standard"
               value={this.state.food_available}
               onChange={this.onChangeFood_Available}
-            ></Form.Control>
+            />
           </Form.Group>
           <Form.Group controlId="exampleForm.ControlTextarea1">
-            <Form.Label>Potential Allergies</Form.Label>
-            <Form.Control
-              type="text"
+          <TextField
+              id="standard-basic"
+              label="Allergies"
+              variant="standard"
               value={this.state.potential_allergies}
               onChange={this.onChangePontential_Allergies}
             />
           </Form.Group>
-          <Button variant="primary" type="submit">
+          <Button className="buttonColor" type="submit">
             Submit
           </Button>
-          {fireRedirect && (
-            <Redirect to="/" />
-          )}
+          {fireRedirect && <Redirect to="/" />}
         </Form>
       </div>
     );
